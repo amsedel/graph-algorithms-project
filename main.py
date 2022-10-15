@@ -28,10 +28,6 @@ def grafoMalla(m, n, dirigido=False, auto=False):
     print("Por favor introduce un valor m>1 y un n>1")
 
 
-grafoMalla(6, 5)
-grafoMalla(30, 10)
-grafoMalla(50, 10)
-
 
 # Modelo Gn,m de Erdös y Rényi. Crear n nodos y elegir uniformemente al azar 
 # m distintos pares de distintos vértices.
@@ -58,10 +54,6 @@ def grafoErdosRenyi(n, m, dirigido=False, auto=False):
     print("Por favor introduce un valor de arista m >= n-1 y un n>0")
 
 
-grafoErdosRenyi(30,80)
-grafoErdosRenyi(300,1000)
-grafoErdosRenyi(500,2100)
-
 
 # Modelo Gn,p de Gilbert. Crear n nodos y poner una arista entre cada 
 # par independiente y uniformemente con probabilidad p.
@@ -86,9 +78,6 @@ def grafoGilbert(n, p, dirigido=False, auto=False):
   else:
     print("Por favor introduce un valor n>0 y un valor p entre 0 y 1")
 
-grafoGilbert(30,0.5)
-grafoGilbert(300,0.1)
-grafoGilbert(500,0.04)
 
 
 #Modelo Gn,r geográfico simple. Colocar n nodos en un rectángulo 
@@ -121,10 +110,6 @@ def grafoGeografico(n, r, dirigido=False, auto=False):
     return g
   else:
     print("Por favor introduce un valor n>0 y un valor r entre 0 y 1")
-
-grafoGeografico(30, 0.8)
-grafoGeografico(300, 0.15)
-grafoGeografico(500, 0.1)
 
 
 
@@ -170,9 +155,6 @@ def grafoBarabasiAlbert(n, d, dirigido=False, auto=False):
   else:
     print("Por favor introduce un valor n>0 y un valor d>1")
 
-grafoBarabasiAlbert(30,6)
-grafoBarabasiAlbert(300,6)
-grafoBarabasiAlbert(500,6)
 
 
 # Modelo Gn Dorogovtsev-Mendes. Crear 3 nodos y 3 aristas formando un triángulo.
@@ -202,6 +184,169 @@ def grafoDorogovtsevMendes(n, dirigido=False):
   else:
     print("Por favor introduce un valor n>=3")
 
-grafoDorogovtsevMendes(30)
-grafoDorogovtsevMendes(300)
-grafoDorogovtsevMendes(500)
+
+
+#Grafo Malla
+"""
+GM_30 = grafoMalla(6,5)
+bfs_GM_30 = GM_30.BFS(1)
+GM_30.save_graph('bfs_malla_30',30, bfs_GM_30)
+dfs_i_GM_30 = GM_30.DFS_I(1)
+GM_30.save_graph('dfs_i_malla_30',30, dfs_i_GM_30)
+dfs_r_GM_30 = GM_30.DFS_R(1)
+GM_30.save_graph('dfs_r_malla_30',30, dfs_r_GM_30)
+
+GM_100 = grafoMalla(10,10)
+bfs_GM_100 = GM_100.BFS(1)
+GM_100.save_graph('bfs_malla_100',100, bfs_GM_100)
+dfs_i_GM_100 = GM_100.DFS_I(1)
+GM_100.save_graph('dfs_i_malla_100',100, dfs_i_GM_100)
+dfs_r_GM_100 = GM_100.DFS_R(1)
+GM_100.save_graph('dfs_r_malla_100',100, dfs_r_GM_100)
+
+GM_500 = grafoMalla(50,10)
+bfs_GM_500 = GM_500.BFS(1)
+GM_500.save_graph('bfs_malla_500',500, bfs_GM_500)
+dfs_i_GM_500 = GM_500.DFS_I(1)
+GM_500.save_graph('dfs_i_malla_500',500, dfs_i_GM_500)
+dfs_r_GM_500 = GM_500.DFS_R(1)
+GM_500.save_graph('dfs_r_malla_500',500, dfs_r_GM_500)
+"""
+
+#Grafo Erdos Renyi
+"""
+GER_30 = grafoErdosRenyi(30,80)
+bfs_GER_30 = GER_30.BFS(1)
+GER_30.save_graph('bfs_Erdos_Renyi_30',30, bfs_GER_30)
+dfs_i_GER_30 = GER_30.DFS_I(1)
+GER_30.save_graph('dfs_i_Erdos_Renyi_30',30, dfs_i_GER_30)
+dfs_r_GER_30 = GER_30.DFS_R(1)
+GER_30.save_graph('dfs_r_Erdos_Renyi_30',30, dfs_r_GER_30)
+
+GER_100 = grafoErdosRenyi(100,500)
+bfs_GER_100 = GER_100.BFS(1)
+GER_100.save_graph('bfs_Erdos_Renyi_100',100, bfs_GER_100)
+dfs_i_GER_100 = GER_100.DFS_I(1)
+GER_100.save_graph('dfs_i_Erdos_Renyi_100',100, dfs_i_GER_100)
+dfs_r_GER_100 = GER_100.DFS_R(1)
+GER_100.save_graph('dfs_r_Erdos_Renyi_100',100, dfs_r_GER_100)
+
+GER_500 = grafoErdosRenyi(500,2100)
+bfs_GER_500 = GER_500.BFS(1)
+GER_500.save_graph('bfs_Erdos_Renyi_500',500, bfs_GER_500)
+dfs_i_GER_500 = GER_500.DFS_I(1)
+GER_500.save_graph('dfs_i_Erdos_Renyi_500',500, dfs_i_GER_500)
+dfs_r_GER_500 = GER_500.DFS_R(1)
+GER_500.save_graph('dfs_r_Erdos_Renyi_500',500, dfs_r_GER_500)
+"""
+
+#Grafo Gilbert
+"""
+GG_30 = grafoGilbert(30,0.5)
+bfs_GG_30 = GG_30.BFS(1)
+GG_30.save_graph('bfs_Gilbert_30',30, bfs_GG_30)
+dfs_i_GG_30 = GG_30.DFS_I(1)
+GG_30.save_graph('dfs_i_Gilbert_30',30, dfs_i_GG_30)
+dfs_r_GG_30 = GG_30.DFS_R(1)
+GG_30.save_graph('dfs_r_Gilbert_30',30, dfs_r_GG_30)
+
+GG_100 = grafoGilbert(100,0.15)
+bfs_GG_100 = GG_100.BFS(1)
+GG_100.save_graph('bfs_Gilbert_100',100, bfs_GG_100)
+dfs_i_GG_100 = GG_100.DFS_I(1)
+GG_100.save_graph('dfs_i_Gilbert_100',100, dfs_i_GG_100)
+dfs_r_GG_100 = GG_100.DFS_R(1)
+GG_100.save_graph('dfs_r_Gilbert_100',100, dfs_r_GG_100)
+
+GG_500 = grafoGilbert(500,0.04)
+bfs_GG_500 = GG_500.BFS(1)
+GG_500.save_graph('bfs_Gilbert_500',500, bfs_GG_500)
+dfs_i_GG_500 = GG_500.DFS_I(1)
+GG_500.save_graph('dfs_i_Gilbert_500',500, dfs_i_GG_500)
+dfs_r_GG_500 = GG_500.DFS_R(1)
+GG_500.save_graph('dfs_r_Gilbert_500',500, dfs_r_GG_500)
+"""
+
+#Grafo Geográfico
+"""
+GGEO_30 = grafoGeografico(30, 0.8)
+bfs_GGEO_30 = GGEO_30.BFS(1)
+GGEO_30.save_graph('bfs_Geografico_30',30, bfs_GGEO_30)
+dfs_i_GGEO_30 = GGEO_30.DFS_I(1)
+GGEO_30.save_graph('dfs_i_Geografico_30',30, dfs_i_GGEO_30)
+dfs_r_GGEO_30 = GGEO_30.DFS_R(1)
+GGEO_30.save_graph('dfs_r_Geografico_30',30, dfs_r_GGEO_30)
+
+GGEO_100 = grafoGeografico(100, 0.2)
+bfs_GGEO_100 = GGEO_100.BFS(1)
+GGEO_100.save_graph('bfs_Geografico_100',100, bfs_GGEO_100)
+dfs_i_GGEO_100 = GGEO_100.DFS_I(1)
+GGEO_100.save_graph('dfs_i_Geografico_100',100, dfs_i_GGEO_100)
+dfs_r_GGEO_100 = GGEO_100.DFS_R(1)
+GGEO_100.save_graph('dfs_r_Geografico_100',100, dfs_r_GGEO_100)
+
+GGEO_500 = grafoGeografico(500, 0.1)
+bfs_GGEO_500 = GGEO_500.BFS(1)
+GGEO_500.save_graph('bfs_Geografico_500',500, bfs_GGEO_500)
+dfs_i_GGEO_500 = GGEO_500.DFS_I(1)
+GGEO_500.save_graph('dfs_i_Geografico_500',500, dfs_i_GGEO_500)
+dfs_r_GGEO_500 = GGEO_500.DFS_R(1)
+GGEO_500.save_graph('dfs_r_Geografico_500',500, dfs_r_GGEO_500)
+"""
+
+
+#Grafo Barabasi Albert
+"""
+GBA_30 = grafoBarabasiAlbert(30,6)
+bfs_GBA_30 = GBA_30.BFS(1)
+GBA_30.save_graph('bfs_BarabasiAlbert_30',30, bfs_GBA_30)
+dfs_i_GBA_30 = GBA_30.DFS_I(1)
+GBA_30.save_graph('dfs_i_BarabasiAlbert_30',30, dfs_i_GBA_30)
+dfs_r_GBA_30 = GBA_30.DFS_R(1)
+GBA_30.save_graph('dfs_r_BarabasiAlbert_30',30, dfs_r_GBA_30)
+
+GBA_100 = grafoBarabasiAlbert(100,6)
+bfs_GBA_100 = GBA_100.BFS(1)
+GBA_100.save_graph('bfs_BarabasiAlbert_100',100, bfs_GBA_100)
+dfs_i_GBA_100 = GBA_100.DFS_I(1)
+GBA_100.save_graph('dfs_i_BarabasiAlbert_100',100, dfs_i_GBA_100)
+dfs_r_GBA_100 = GBA_100.DFS_R(1)
+GBA_100.save_graph('dfs_r_BarabasiAlbert_100',100, dfs_r_GBA_100)
+
+GBA_500 = grafoBarabasiAlbert(500,6)
+bfs_GBA_500 = GBA_500.BFS(1)
+GBA_500.save_graph('bfs_BarabasiAlbert_500',500, bfs_GBA_500)
+dfs_i_GBA_500 = GBA_500.DFS_I(1)
+GBA_500.save_graph('dfs_i_BarabasiAlbert_500',500, dfs_i_GBA_500)
+dfs_r_GBA_500 = GBA_500.DFS_R(1)
+GBA_500.save_graph('dfs_r_BarabasiAlbert_500',500, dfs_r_GBA_500)
+"""
+
+
+#Grafo Dorogovtsev Mendes
+"""
+GDM_30 = grafoDorogovtsevMendes(30)
+bfs_GDM_30 = GDM_30.BFS(1)
+GDM_30.save_graph('bfs_DorogovtsevMendes_30',30, bfs_GDM_30)
+dfs_i_GDM_30 = GDM_30.DFS_I(1)
+GDM_30.save_graph('dfs_i_DorogovtsevMendes_30',30, dfs_i_GDM_30)
+dfs_r_GDM_30 = GDM_30.DFS_R(1)
+GDM_30.save_graph('dfs_r_DorogovtsevMendes_30',30, dfs_r_GDM_30)
+
+GDM_100 = grafoDorogovtsevMendes(100)
+bfs_GDM_100 = GDM_100.BFS(1)
+GDM_100.save_graph('bfs_DorogovtsevMendes_100',100, bfs_GDM_100)
+dfs_i_GDM_100 = GDM_100.DFS_I(1)
+GDM_100.save_graph('dfs_i_DorogovtsevMendes_100',100, dfs_i_GDM_100)
+dfs_r_GDM_100 = GDM_100.DFS_R(1)
+GDM_100.save_graph('dfs_r_DorogovtsevMendes_100',100, dfs_r_GDM_100)
+
+GDM_500 = grafoDorogovtsevMendes(500)
+bfs_GDM_500 = GDM_500.BFS(1)
+GDM_500.save_graph('bfs_DorogovtsevMendes_500',500, bfs_GDM_500)
+dfs_i_GDM_500 = GDM_500.DFS_I(1)
+GDM_500.save_graph('dfs_i_DorogovtsevMendes_500',500, dfs_i_GDM_500)
+dfs_r_GDM_500 = GDM_500.DFS_R(1)
+GDM_500.save_graph('dfs_r_DorogovtsevMendes_500',500, dfs_r_GDM_500)
+"""
+

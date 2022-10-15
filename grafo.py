@@ -9,6 +9,9 @@ class Grafo:
     self.__adjacency_list = {}
     self.__is_auto_loop = False
     self.__is_directed = False
+    self.__induced_graph = []
+    self.__explored = []
+    self.__bfs_layers = []
 
   #Getter of __is_auto_loop variable
   def get_auto_loop(self)-> bool:
@@ -97,8 +100,11 @@ class Grafo:
       return 0
 
   #Save a graph or digraph in a .gv file
-  def save_graph(self, file_name:str ='', n:int=0):
-    edges_tuples = [tuple(str(edge)[1:-1].split(',')) for edge in list(self.__edges)]
+  def save_graph(self, file_name:str ='', n:int=0, edges_list:list=[]):
+    if len(edges_list) > 0:
+      edges_tuples = [tuple(str(edge)[1:-1].split(',')) for edge in list(edges_list)]
+    else:
+      edges_tuples = [tuple(str(edge)[1:-1].split(',')) for edge in list(self.__edges)]
     if self.__is_directed == False:
       content = [f"{str(t[0])}--{str(t[1])}" for t in edges_tuples]
       graph_type = 'graph'
@@ -111,5 +117,88 @@ class Grafo:
         f.write(d + '\n')
       f.write('}'+ '\n')
     f.close()
-    
 
+  #Find if a graph it is bipartite through the BFS algorithm
+  def is_bipartite(self):
+    self.BFS(1)
+    for l in self.__bfs_layers:
+      if len(l)>1:
+        for n in range(1,len(l)):
+          if (l[n-1],l[n]) in self.edges_list() or (l[n],l[n-1]) in self.edges_list():
+            return False
+    return True
+
+
+  #BFS algorithm
+  def BFS(self, s):
+    # s: any source node of the graph
+    self.__induced_graph, self.__bfs_layers = [], [] #clean variables
+    discovered = { str(s) : True}
+    i = 0 #layers count
+    self.__bfs_layers = [[str(s)]] #initialize layer 0 with s 
+    for n_k in self.adjacency_dict().keys():
+      if n_k not in discovered:
+        discovered[n_k] = False
+    while len(self.__bfs_layers[i]) > 0: 
+      self.__bfs_layers.append([])
+      for u in self.__bfs_layers[i]:
+        nodes = self.adjacency_dict()[u]
+        for v in nodes:
+          if discovered[v] == False:
+            discovered[v] = True
+            self.__bfs_layers[i+1].append(v)
+            self.__induced_graph.append(Arista(Nodo(u),Nodo(v)))
+      i = i + 1
+    return [str(edge) for edge in self.__induced_graph]
+
+
+  #DFS recursive algorithm
+  def DFS_R(self, u):
+    # u: node
+    #Clean at start
+    if len(self.__explored) == 0:
+      self.__induced_graph = []
+    induced_graph = self.__induced_graph
+    #Recursive Algorithm
+    self.__explored.append(str(u))
+    for v in self.adjacency_dict()[str(u)]:
+      if v not in self.__explored:
+        self.__induced_graph.append(Arista(Nodo(u),Nodo(v)))
+        self.DFS_R(v)
+    #Clean when finished
+    if len(self.adjacency_dict().keys()) == len(self.__explored) and self.__explored[0] == str(u):
+      #self.__induced_graph = []
+      self.__explored = []
+    return [str(edge) for edge in induced_graph]
+  
+  #DFS iterative algorithm
+  def DFS_I(self, s):
+    # clean variables
+    # s: any source node of the graph
+    # d: it is a list of discovered nodes
+    self.__induced_graph, dfs_i, d  = [], [], [] 
+    self.__explored.append(str(s))
+    while len(self.__explored) > 0:
+      v = self.__explored.pop()
+      if v in d:
+        continue
+      d.append(str(v))
+      nodes = self.adjacency_dict()[str(v)]
+      for i in reversed(range(len(nodes))):
+        u = nodes[i]
+        if str(u) not in d:
+          self.__explored.append(u)
+    for i in range(1,len(d)):
+      #clean variables
+      #From discovered nodes order get continuos edges
+      if (d[i-1], d[i]) in self.edges_list() or (d[i], d[i-1]) in self.edges_list():
+        self.__induced_graph.append(Arista(Nodo(d[i-1]),Nodo(d[i])))
+      else:
+      #From discovered nodes order find the closest node to other node to form an edge
+        for j in reversed(range(i)):
+          if (d[j], d[i]) in self.edges_list() or (d[i], d[j]) in self.edges_list():
+            self.__induced_graph.append(Arista(Nodo(d[j]),Nodo(d[i])))
+            break
+    dfs_i = self.__induced_graph
+    self.__induced_graph = []
+    return [str(edge) for edge in dfs_i]
