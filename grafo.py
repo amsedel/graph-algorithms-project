@@ -1,33 +1,21 @@
+from cmath import inf
 from arista import Arista
 from nodo import Nodo
 
 class Grafo:
 
   #constructor
-  def __init__(self) -> None:
+  def __init__(self, is_weighted=False,is_directed=False,is_auto_loop=False) -> None:
     self.__edges = []
     self.__adjacency_list = {}
-    self.__is_auto_loop = False
-    self.__is_directed = False
+    self.__is_auto_loop = is_auto_loop
+    self.__is_directed = is_directed
     self.__induced_graph = []
     self.__explored = []
     self.__bfs_layers = []
+    self.__is_weighted = is_weighted
+    self.__custom_nodes = {}
 
-  #Getter of __is_auto_loop variable
-  def get_auto_loop(self)-> bool:
-    return self.__is_auto_loop
-
-  #Setter of __is_auto_loop variable
-  def set_auto_loop(self, value:bool):
-    self.__is_auto_loop = value
-  
-  #Getter of __is_directed variable
-  def get_is_directed(self)-> bool:
-    return self.__is_directed
-
-  #Setter of __is_directed variable
-  def set_is_directed(self, value:bool):
-    self.__is_directed = value
 
   #Print the list of edges in the graph
   def __str__(self) -> str:
@@ -37,11 +25,11 @@ class Grafo:
   def __get_adjacency(self) -> dict:
     self.__adjacency_list.clear()
     for edge in self.__edges:
-      if edge.directed():
-        pass
+      node1 = edge.get_Node1()
+      node2 = edge.get_Node2()
+      if self.__is_directed:
+        self.__add_edge_to_dict(node1,node2)
       else:
-        node1 = edge.get_Node1()
-        node2 = edge.get_Node2()
         self.__add_edge_to_dict(node1,node2)
         self.__add_edge_to_dict(node2,node1)
     return self.__adjacency_list
@@ -52,6 +40,8 @@ class Grafo:
       self.__adjacency_list[node1].append([node2])
     else:
       self.__adjacency_list[node1] = [[node2]]
+    if node2 not in self.__adjacency_list:
+      self.__adjacency_list[node2] = []
 
   #Add an edge considering if the graph is directed or not or if the graph has loops or not
   def add_edge(self, edge:Arista):
@@ -99,20 +89,38 @@ class Grafo:
     else:
       return 0
 
+  #Allows to print the edges and configure the display of the nodes 
+  def __custom_graph(self, edges_tuples):
+    content = []
+    graph_type = 'graph'
+    if self.__is_directed == False and self.__custom_nodes=={}:
+      content = [f"{str(t[0])}--{str(t[1])}" for t in edges_tuples]
+    if self.__is_directed == True and self.__custom_nodes=={}:
+      content = [f"{str(t[0])}->{str(t[1])}" for t in edges_tuples]
+      graph_type = 'digraph'
+    if self.__is_directed == False and len(self.__custom_nodes)>0:
+      content = [f"{str(t[0])}--{str(t[1])}" for t in edges_tuples]
+      customNodes = [f"{str(n[0])} {str(n[1])}" for n in list(self.__custom_nodes.items())]
+      content = content + customNodes
+    if self.__is_directed == True and len(self.__custom_nodes)>0:
+      content = [f"{str(t[0])}->{str(t[1])}" for t in edges_tuples]
+      customNodes = [f"{str(n[0])} {str(n[1])}" for n in list(self.__custom_nodes.items())]
+      content = content + customNodes
+      graph_type = 'digraph'
+    return content, graph_type
+
   #Save a graph or digraph in a .gv file
-  def save_graph(self, file_name:str ='', n:int=0, edges_list:list=[]):
+  def save_graph(self, file_name:str ='g', n:int=0, edges_list:list=[]):
     if len(edges_list) > 0:
       edges_tuples = [tuple(str(edge)[1:-1].split(',')) for edge in list(edges_list)]
     else:
       edges_tuples = [tuple(str(edge)[1:-1].split(',')) for edge in list(self.__edges)]
-    if self.__is_directed == False:
-      content = [f"{str(t[0])}--{str(t[1])}" for t in edges_tuples]
-      graph_type = 'graph'
-    else:
-      content = [f"{str(t[0])}->{str(t[1])}" for t in edges_tuples]
-      graph_type = 'digraph'
+
+    content, graph_type = self.__custom_graph(edges_tuples)
+    self.__custom_nodes = {}
+
     with open(file_name+'_'+graph_type+'_n_'+str(n)+'.gv', 'w') as f:
-      f.write(graph_type + ' g_m_'+str(len(content)) +'{\n')
+      f.write(graph_type + ' ' + file_name +'{\n')
       for d in content:
         f.write(d + '\n')
       f.write('}'+ '\n')
@@ -202,3 +210,60 @@ class Grafo:
     dfs_i = self.__induced_graph
     self.__induced_graph = []
     return [str(edge) for edge in dfs_i]
+
+  #gives dictionary format to the edges with weight
+  # { "(node1,node2)" : weight}
+  def weighted_edges(self) -> dict:
+    weighted_edges_dict = {}
+    if self.__is_weighted == True:
+      for edge in self.edges_list():
+        weighted_edges_dict[(str(edge[0]),str(edge[1]))]=float(edge[2])
+    return weighted_edges_dict
+
+  #Finds the node with the minimun weight and update the queue (q)
+  def __priority_queue(self, weight_list, nodes_list, q):
+    if len(q) > 0:
+      n,w = map(list,zip(*[v for v in zip(nodes_list,weight_list) if v[0] in q]))
+      index = w.index(min(w))
+      item = n[index]
+      q.remove(item)
+      return [item] + q
+    else:
+      return []
+
+  # Dijkstra algorithm
+  def Dijkstra(self, s):
+    # s: source node
+    # q: priority queue
+    # S: coverage
+    # d: relation between nodes and weights: {Node1: weight}
+    # tree: relation of nodes and edges: {Node2:(Node1,Node2)}
+    q, S, self.__induced_graph = [], [], []
+    d, tree = {}, {}
+    for n in self.adjacency_dict().keys():
+      if n != str(s):
+        q.append(n)
+        d[n] = inf
+    q = [str(s)] + q
+    d[str(s)] = 0.0
+    w_e = self.weighted_edges()
+    while len(q) > 0:
+      u = q.pop(0)
+      S.append(str(u))
+      for v in self.adjacency_dict()[str(u)]:
+        if self.__is_directed:
+          if v not in S and (u,v) in w_e:
+            if d[v] > (d[u] + w_e[(u,v)]):
+              d[v] = round(float(d[u] + w_e[(u,v)]),2)
+              tree[v] = (int(u), int(v))
+        else:
+          if v not in S:
+            l_e = w_e[(u,v)] if (u,v) in w_e else w_e[(v,u)]
+            if d[v] > (d[u] + l_e):
+              d[v] = round(float(d[u] + l_e),2)
+              tree[v] = (int(u), int(v))
+
+      q = self.__priority_queue(list(d.values()),list(d.keys()),q)
+    self.__custom_nodes = {key: f'[label="{key}({str(value)})"]' for (key,value) in d.items()}
+    self.__induced_graph=[Arista(Nodo(tree[k][0]),Nodo(tree[k][1])) for k in list(tree.keys())]
+    return [str(edge) for edge in self.__induced_graph]

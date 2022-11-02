@@ -11,17 +11,17 @@ from grafo import Grafo
 #:param n: número de filas (> 1)
 #:param dirigido: ¿el grafo es dirigido?
 #:return: grafo generado
-def grafoMalla(m, n, dirigido=False, auto=False):
-  g = Grafo()
-  g.set_is_directed(dirigido)
-  g.set_auto_loop(auto)
+def grafoMalla(m, n, dirigido=False, auto=False, ponderado=False):
+  g = Grafo(ponderado, dirigido, auto)
   if m >1 and n>1:
     t = (m*n)+1
     for i in range(1,t):
       if i+1<t and i%m != 0:
-        g.add_edge(Arista(Nodo(i),Nodo(i+1)))
+        w = round(random.uniform(0,100),2)
+        g.add_edge(Arista(Nodo(i),Nodo(i+1),w)) if ponderado else g.add_edge(Arista(Nodo(i),Nodo(i+1)))
       if i+m<t:
-        g.add_edge(Arista(Nodo(i),Nodo(i+m)))
+        w = round(random.uniform(0,100),2)
+        g.add_edge(Arista(Nodo(i),Nodo(i+m),w)) if ponderado else g.add_edge(Arista(Nodo(i),Nodo(i+m)))
     g.save_graph('grafoMalla', m*n)
     return g
   else:
@@ -36,18 +36,16 @@ def grafoMalla(m, n, dirigido=False, auto=False):
 # :param dirigido: ¿el grafo es dirigido?
 # :param auto: ¿permitir auto-ciclos?
 # :return: grafo generado
-def grafoErdosRenyi(n, m, dirigido=False, auto=False):
-  g = Grafo()
-  g.set_is_directed(dirigido)
-  g.set_auto_loop(auto)
-
+def grafoErdosRenyi(n, m, dirigido=False, auto=False, ponderado=False):
+  g = Grafo(ponderado, dirigido, auto)
   nodes = list(range(1,n+1))
 
   if m >= (n-1) and n>0:
     while len(g.edges_list()) < m:
       n1 = random.choice(nodes)
       n2 = random.choice(nodes)
-      g.add_edge(Arista(Nodo(n1),Nodo(n2)))
+      w = round(random.uniform(0,100),2)
+      g.add_edge(Arista(Nodo(n1),Nodo(n2),w)) if ponderado else g.add_edge(Arista(Nodo(n1),Nodo(n2)))
     g.save_graph('grafoErdosRenyi', n)
     return g
   else:
@@ -62,17 +60,16 @@ def grafoErdosRenyi(n, m, dirigido=False, auto=False):
 # :param dirigido: ¿el grafo es dirigido?
 # :param auto: ¿permitir auto-ciclos?
 # :return: grafo generado
-def grafoGilbert(n, p, dirigido=False, auto=False):
-  g = Grafo()
-  g.set_is_directed(dirigido)
-  g.set_auto_loop(auto)
+def grafoGilbert(n, p, dirigido=False, auto=False, ponderado=False):
+  g = Grafo(ponderado, dirigido, auto)
   nodes = list(range(1,n+1))
   if n>0 and 1>=p>0:
     for i in nodes:
       for j in range(i+1,len(nodes)+1):
         R = random.random() 
         if (R < p):
-          g.add_edge(Arista(Nodo(i),Nodo(j)))
+          w = round(random.uniform(0,100),2)
+          g.add_edge(Arista(Nodo(i),Nodo(j),w)) if ponderado else g.add_edge(Arista(Nodo(i),Nodo(j)))
     g.save_graph('grafoGilbert', n)
     return g
   else:
@@ -88,10 +85,8 @@ def grafoGilbert(n, p, dirigido=False, auto=False):
 # :param dirigido: ¿el grafo es dirigido?
 # :param auto: ¿permitir auto-ciclos?
 # :return: grafo generado
-def grafoGeografico(n, r, dirigido=False, auto=False):
-  g = Grafo()
-  g.set_is_directed(dirigido)
-  g.set_auto_loop(auto)
+def grafoGeografico(n, r, dirigido=False, auto=False, ponderado=False):
+  g = Grafo(ponderado, dirigido, auto)
   nodes_positions = []
   nodes = list(range(1,n+1))
   if n>0 and 1>=r>0:
@@ -105,7 +100,8 @@ def grafoGeografico(n, r, dirigido=False, auto=False):
         if (node1 < node2):
           dist2points = ((x2-x1)**2 + (y2-y1)**2)**0.5
           if(dist2points<=r):
-            g.add_edge(Arista(Nodo(node1),Nodo(node2)))
+            w = round(random.uniform(0,100),2)
+            g.add_edge(Arista(Nodo(node1),Nodo(node2),w)) if ponderado else g.add_edge(Arista(Nodo(node1),Nodo(node2)))
     g.save_graph('grafoGeografico', n)
     return g
   else:
@@ -123,10 +119,8 @@ def grafoGeografico(n, r, dirigido=False, auto=False):
 # :param dirigido: ¿el grafo es dirigido?
 # :param auto: ¿permitir auto-ciclos?
 # :return: grafo generado
-def grafoBarabasiAlbert(n, d, dirigido=False, auto=False):
-  g = Grafo()
-  g.set_is_directed(dirigido)
-  g.set_auto_loop(auto)
+def grafoBarabasiAlbert(n, d, dirigido=False, auto=False, ponderado=False):
+  g = Grafo(ponderado, dirigido, auto)
   initial_nodes = list(range(1,d+1))
   nodes = initial_nodes
   nodes_complete = []
@@ -135,7 +129,8 @@ def grafoBarabasiAlbert(n, d, dirigido=False, auto=False):
     for i in initial_nodes:
       for j in initial_nodes:
         if (i < j):
-          g.add_edge(Arista(Nodo(i),Nodo(j)))
+          w = round(random.uniform(0,100),2)
+          g.add_edge(Arista(Nodo(i),Nodo(j),w)) if ponderado else g.add_edge(Arista(Nodo(i),Nodo(j)))
 
     while nodes[-1] < n:
       new_node = [len(nodes)+1]
@@ -144,7 +139,8 @@ def grafoBarabasiAlbert(n, d, dirigido=False, auto=False):
         if p_v > 0:
           bernoulli = random.random()
           if bernoulli > 0.5:
-            g.add_edge(Arista(Nodo(i),Nodo(new_node[0])))
+            w = round(random.uniform(0,100),2)
+            g.add_edge(Arista(Nodo(i),Nodo(new_node[0]),w)) if ponderado else g.add_edge(Arista(Nodo(i),Nodo(new_node[0])))
         else:
           nodes_complete.append(i)
         mutable_nodes = [node for node in mutable_nodes if node not in nodes_complete]    
@@ -164,18 +160,19 @@ def grafoBarabasiAlbert(n, d, dirigido=False, auto=False):
 # :param n: número de nodos (≥ 3)
 # :param dirigido: ¿el grafo es dirigido?
 # :return: grafo generado
-def grafoDorogovtsevMendes(n, dirigido=False):
-  g = Grafo()
-  g.set_is_directed(dirigido)
+def grafoDorogovtsevMendes(n, dirigido=False, auto=False, ponderado=False):
+  g = Grafo(ponderado, dirigido, auto)
   if n>=3:
     nodes = list(range(1,4)) #triangle
-    g = grafoBarabasiAlbert(3, 3)
+    g = grafoBarabasiAlbert(3, 3, dirigido, auto, ponderado)
     aux_edges_list = g.edges_list()
     while len(nodes)<n:
       new_node = [len(nodes)+1]
       choice_edge = random.choice(aux_edges_list)
-      g.add_edge(Arista(Nodo(choice_edge[0]),Nodo(new_node[0])))
-      g.add_edge(Arista(Nodo(choice_edge[1]),Nodo(new_node[0])))
+      w1 = round(random.uniform(0,100),2)
+      w2 = round(random.uniform(0,100),2)
+      g.add_edge(Arista(Nodo(choice_edge[0]),Nodo(new_node[0]),w1)) if ponderado else g.add_edge(Arista(Nodo(choice_edge[0]),Nodo(new_node[0])))
+      g.add_edge(Arista(Nodo(choice_edge[1]),Nodo(new_node[0]),w2)) if ponderado else g.add_edge(Arista(Nodo(choice_edge[1]),Nodo(new_node[0])))
       nodes = nodes + new_node
       aux_edges_list.remove(choice_edge)
       aux_edges_list = aux_edges_list + [(choice_edge[0],new_node[0]),(choice_edge[1],new_node[0])]
@@ -188,165 +185,66 @@ def grafoDorogovtsevMendes(n, dirigido=False):
 
 #Grafo Malla
 """
-GM_30 = grafoMalla(6,5)
-bfs_GM_30 = GM_30.BFS(1)
-GM_30.save_graph('bfs_malla_30',30, bfs_GM_30)
-dfs_i_GM_30 = GM_30.DFS_I(1)
-GM_30.save_graph('dfs_i_malla_30',30, dfs_i_GM_30)
-dfs_r_GM_30 = GM_30.DFS_R(1)
-GM_30.save_graph('dfs_r_malla_30',30, dfs_r_GM_30)
+GM_20 = grafoMalla(5,4,ponderado=True)
+dijkstra_GM_20 = GM_20.Dijkstra(1)
+GM_20.save_graph('dijkstra_malla',20, dijkstra_GM_20)
 
-GM_100 = grafoMalla(10,10)
-bfs_GM_100 = GM_100.BFS(1)
-GM_100.save_graph('bfs_malla_100',100, bfs_GM_100)
-dfs_i_GM_100 = GM_100.DFS_I(1)
-GM_100.save_graph('dfs_i_malla_100',100, dfs_i_GM_100)
-dfs_r_GM_100 = GM_100.DFS_R(1)
-GM_100.save_graph('dfs_r_malla_100',100, dfs_r_GM_100)
-
-GM_500 = grafoMalla(50,10)
-bfs_GM_500 = GM_500.BFS(1)
-GM_500.save_graph('bfs_malla_500',500, bfs_GM_500)
-dfs_i_GM_500 = GM_500.DFS_I(1)
-GM_500.save_graph('dfs_i_malla_500',500, dfs_i_GM_500)
-dfs_r_GM_500 = GM_500.DFS_R(1)
-GM_500.save_graph('dfs_r_malla_500',500, dfs_r_GM_500)
+GM_200 = grafoMalla(20,10,ponderado=True)
+dijkstra_GM_200 = GM_200.Dijkstra(1)
+GM_200.save_graph('dijkstra_malla',200, dijkstra_GM_200)
 """
 
 #Grafo Erdos Renyi
 """
-GER_30 = grafoErdosRenyi(30,80)
-bfs_GER_30 = GER_30.BFS(1)
-GER_30.save_graph('bfs_Erdos_Renyi_30',30, bfs_GER_30)
-dfs_i_GER_30 = GER_30.DFS_I(1)
-GER_30.save_graph('dfs_i_Erdos_Renyi_30',30, dfs_i_GER_30)
-dfs_r_GER_30 = GER_30.DFS_R(1)
-GER_30.save_graph('dfs_r_Erdos_Renyi_30',30, dfs_r_GER_30)
+GER_20 = grafoErdosRenyi(20,50,ponderado=True)
+dijkstra_GER_20 = GER_20.Dijkstra(1)
+GER_20.save_graph('dijkstra_Erdos_Renyi',20, dijkstra_GER_20)
 
-GER_100 = grafoErdosRenyi(100,500)
-bfs_GER_100 = GER_100.BFS(1)
-GER_100.save_graph('bfs_Erdos_Renyi_100',100, bfs_GER_100)
-dfs_i_GER_100 = GER_100.DFS_I(1)
-GER_100.save_graph('dfs_i_Erdos_Renyi_100',100, dfs_i_GER_100)
-dfs_r_GER_100 = GER_100.DFS_R(1)
-GER_100.save_graph('dfs_r_Erdos_Renyi_100',100, dfs_r_GER_100)
-
-GER_500 = grafoErdosRenyi(500,2100)
-bfs_GER_500 = GER_500.BFS(1)
-GER_500.save_graph('bfs_Erdos_Renyi_500',500, bfs_GER_500)
-dfs_i_GER_500 = GER_500.DFS_I(1)
-GER_500.save_graph('dfs_i_Erdos_Renyi_500',500, dfs_i_GER_500)
-dfs_r_GER_500 = GER_500.DFS_R(1)
-GER_500.save_graph('dfs_r_Erdos_Renyi_500',500, dfs_r_GER_500)
+GER_200 = grafoErdosRenyi(200,700,ponderado=True)
+dijkstra_GER_200 = GER_200.Dijkstra(1)
+GER_200.save_graph('dijkstra_Erdos_Renyi',200, dijkstra_GER_200)
 """
 
 #Grafo Gilbert
 """
-GG_30 = grafoGilbert(30,0.5)
-bfs_GG_30 = GG_30.BFS(1)
-GG_30.save_graph('bfs_Gilbert_30',30, bfs_GG_30)
-dfs_i_GG_30 = GG_30.DFS_I(1)
-GG_30.save_graph('dfs_i_Gilbert_30',30, dfs_i_GG_30)
-dfs_r_GG_30 = GG_30.DFS_R(1)
-GG_30.save_graph('dfs_r_Gilbert_30',30, dfs_r_GG_30)
+GG_20 = grafoGilbert(20,0.5,ponderado=True)
+dijkstra_GG_20 = GG_20.Dijkstra(1)
+GG_20.save_graph('dijkstra_Gilbert',20, dijkstra_GG_20)
 
-GG_100 = grafoGilbert(100,0.15)
-bfs_GG_100 = GG_100.BFS(1)
-GG_100.save_graph('bfs_Gilbert_100',100, bfs_GG_100)
-dfs_i_GG_100 = GG_100.DFS_I(1)
-GG_100.save_graph('dfs_i_Gilbert_100',100, dfs_i_GG_100)
-dfs_r_GG_100 = GG_100.DFS_R(1)
-GG_100.save_graph('dfs_r_Gilbert_100',100, dfs_r_GG_100)
-
-GG_500 = grafoGilbert(500,0.04)
-bfs_GG_500 = GG_500.BFS(1)
-GG_500.save_graph('bfs_Gilbert_500',500, bfs_GG_500)
-dfs_i_GG_500 = GG_500.DFS_I(1)
-GG_500.save_graph('dfs_i_Gilbert_500',500, dfs_i_GG_500)
-dfs_r_GG_500 = GG_500.DFS_R(1)
-GG_500.save_graph('dfs_r_Gilbert_500',500, dfs_r_GG_500)
+GG_200 = grafoGilbert(200,0.1,ponderado=True)
+dijkstra_GG_200 = GG_200.Dijkstra(1)
+GG_200.save_graph('dijkstra_Gilbert',200, dijkstra_GG_200)
 """
 
 #Grafo Geográfico
 """
-GGEO_30 = grafoGeografico(30, 0.8)
-bfs_GGEO_30 = GGEO_30.BFS(1)
-GGEO_30.save_graph('bfs_Geografico_30',30, bfs_GGEO_30)
-dfs_i_GGEO_30 = GGEO_30.DFS_I(1)
-GGEO_30.save_graph('dfs_i_Geografico_30',30, dfs_i_GGEO_30)
-dfs_r_GGEO_30 = GGEO_30.DFS_R(1)
-GGEO_30.save_graph('dfs_r_Geografico_30',30, dfs_r_GGEO_30)
+GGEO_20 = grafoGeografico(20, 0.8, ponderado=True)
+dijkstra_GGEO_20 = GGEO_20.Dijkstra(1)
+GGEO_20.save_graph('dijkstra_Geografico',20, dijkstra_GGEO_20)
 
-GGEO_100 = grafoGeografico(100, 0.2)
-bfs_GGEO_100 = GGEO_100.BFS(1)
-GGEO_100.save_graph('bfs_Geografico_100',100, bfs_GGEO_100)
-dfs_i_GGEO_100 = GGEO_100.DFS_I(1)
-GGEO_100.save_graph('dfs_i_Geografico_100',100, dfs_i_GGEO_100)
-dfs_r_GGEO_100 = GGEO_100.DFS_R(1)
-GGEO_100.save_graph('dfs_r_Geografico_100',100, dfs_r_GGEO_100)
-
-GGEO_500 = grafoGeografico(500, 0.1)
-bfs_GGEO_500 = GGEO_500.BFS(1)
-GGEO_500.save_graph('bfs_Geografico_500',500, bfs_GGEO_500)
-dfs_i_GGEO_500 = GGEO_500.DFS_I(1)
-GGEO_500.save_graph('dfs_i_Geografico_500',500, dfs_i_GGEO_500)
-dfs_r_GGEO_500 = GGEO_500.DFS_R(1)
-GGEO_500.save_graph('dfs_r_Geografico_500',500, dfs_r_GGEO_500)
+GGEO_200 = grafoGeografico(200, 0.15, ponderado=True)
+dijkstra_GGEO_200 = GGEO_200.Dijkstra(1)
+GGEO_200.save_graph('dijkstra_Geografico',200, dijkstra_GGEO_200)
 """
-
 
 #Grafo Barabasi Albert
 """
-GBA_30 = grafoBarabasiAlbert(30,6)
-bfs_GBA_30 = GBA_30.BFS(1)
-GBA_30.save_graph('bfs_BarabasiAlbert_30',30, bfs_GBA_30)
-dfs_i_GBA_30 = GBA_30.DFS_I(1)
-GBA_30.save_graph('dfs_i_BarabasiAlbert_30',30, dfs_i_GBA_30)
-dfs_r_GBA_30 = GBA_30.DFS_R(1)
-GBA_30.save_graph('dfs_r_BarabasiAlbert_30',30, dfs_r_GBA_30)
+GBA_20 = grafoBarabasiAlbert(20,4,ponderado=True)
+dijkstra_GBA_20 = GBA_20.Dijkstra(1)
+GBA_20.save_graph('dijkstra_BarabasiAlbert',20, dijkstra_GBA_20)
 
-GBA_100 = grafoBarabasiAlbert(100,6)
-bfs_GBA_100 = GBA_100.BFS(1)
-GBA_100.save_graph('bfs_BarabasiAlbert_100',100, bfs_GBA_100)
-dfs_i_GBA_100 = GBA_100.DFS_I(1)
-GBA_100.save_graph('dfs_i_BarabasiAlbert_100',100, dfs_i_GBA_100)
-dfs_r_GBA_100 = GBA_100.DFS_R(1)
-GBA_100.save_graph('dfs_r_BarabasiAlbert_100',100, dfs_r_GBA_100)
-
-GBA_500 = grafoBarabasiAlbert(500,6)
-bfs_GBA_500 = GBA_500.BFS(1)
-GBA_500.save_graph('bfs_BarabasiAlbert_500',500, bfs_GBA_500)
-dfs_i_GBA_500 = GBA_500.DFS_I(1)
-GBA_500.save_graph('dfs_i_BarabasiAlbert_500',500, dfs_i_GBA_500)
-dfs_r_GBA_500 = GBA_500.DFS_R(1)
-GBA_500.save_graph('dfs_r_BarabasiAlbert_500',500, dfs_r_GBA_500)
+GBA_200 = grafoBarabasiAlbert(200,6,ponderado=True)
+dijkstra_GBA_200 = GBA_200.Dijkstra(1)
+GBA_200.save_graph('dijkstra_BarabasiAlbert',200, dijkstra_GBA_200)
 """
-
 
 #Grafo Dorogovtsev Mendes
 """
-GDM_30 = grafoDorogovtsevMendes(30)
-bfs_GDM_30 = GDM_30.BFS(1)
-GDM_30.save_graph('bfs_DorogovtsevMendes_30',30, bfs_GDM_30)
-dfs_i_GDM_30 = GDM_30.DFS_I(1)
-GDM_30.save_graph('dfs_i_DorogovtsevMendes_30',30, dfs_i_GDM_30)
-dfs_r_GDM_30 = GDM_30.DFS_R(1)
-GDM_30.save_graph('dfs_r_DorogovtsevMendes_30',30, dfs_r_GDM_30)
+GDM_20 = grafoDorogovtsevMendes(20, ponderado=True)
+dijkstra_GDM_20 = GDM_20.Dijkstra(1)
+GDM_20.save_graph('dijkstra_DorogovtsevMendes',20, dijkstra_GDM_20)
 
-GDM_100 = grafoDorogovtsevMendes(100)
-bfs_GDM_100 = GDM_100.BFS(1)
-GDM_100.save_graph('bfs_DorogovtsevMendes_100',100, bfs_GDM_100)
-dfs_i_GDM_100 = GDM_100.DFS_I(1)
-GDM_100.save_graph('dfs_i_DorogovtsevMendes_100',100, dfs_i_GDM_100)
-dfs_r_GDM_100 = GDM_100.DFS_R(1)
-GDM_100.save_graph('dfs_r_DorogovtsevMendes_100',100, dfs_r_GDM_100)
-
-GDM_500 = grafoDorogovtsevMendes(500)
-bfs_GDM_500 = GDM_500.BFS(1)
-GDM_500.save_graph('bfs_DorogovtsevMendes_500',500, bfs_GDM_500)
-dfs_i_GDM_500 = GDM_500.DFS_I(1)
-GDM_500.save_graph('dfs_i_DorogovtsevMendes_500',500, dfs_i_GDM_500)
-dfs_r_GDM_500 = GDM_500.DFS_R(1)
-GDM_500.save_graph('dfs_r_DorogovtsevMendes_500',500, dfs_r_GDM_500)
+GDM_200 = grafoDorogovtsevMendes(200, ponderado=True)
+dijkstra_GDM_200 = GDM_200.Dijkstra(1)
+GDM_200.save_graph('dijkstra_DorogovtsevMendes',200, dijkstra_GDM_200)
 """
-

@@ -1,24 +1,43 @@
 from nodo import Nodo
 
 class Arista:
-  #constructor
-  def __init__(self, nodo1:Nodo, nodo2:Nodo) -> None:
-      self.__pair = [nodo1, nodo2]
+  #constructor overload
+  """
+  With *args allow to have a single edge (Node1,Node2)
+  and allow to have an edge with 3 parameters (Node1, Node2, Weight)
+  """
+  def __init__(self, *args) -> None:
+    self.__has_weight = False
+    self.__weight = 0
+    if len(args) == 2 and isinstance(args[0],Nodo) and isinstance(args[1],Nodo):
+      self.__pair = [args[0], args[1]]
+    if len(args) == 3 and isinstance(args[0],Nodo) and isinstance(args[1],Nodo):
+      self.__pair = [args[0], args[1]]
+      if isinstance(args[2], float) or isinstance(args[2], int):
+        self.__has_weight = True
+        self.__weight = args[2]
   
   #Get nodes pair
   def get_pair(self) -> list:
     return self.__pair
+  # Get the weight of the edge
+  def get_weight(self) -> float:
+    return float(self.__weight)
 
   #Return string with the nodes that form edge
   def __str__(self) -> str:
-    return f"({self.get_Node1()},{self.get_Node2()})"
+    if self.__has_weight:
+      return f"({self.get_Node1()},{self.get_Node2()},{self.get_weight()})"
+    else:
+      return f"({self.get_Node1()},{self.get_Node2()})"
   
   #By default Arista is undirected
   def directed(self) -> bool:
     return False
 
-  #def weighted(self) -> bool:
-  #  return False
+  # Allow to know if edge has weight
+  def has_weight(self) -> bool:
+    return self.__has_weight
 
   # Get node 1
   def get_Node1(self) -> Nodo:
