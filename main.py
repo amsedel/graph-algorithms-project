@@ -17,10 +17,10 @@ def grafoMalla(m, n, dirigido=False, auto=False, ponderado=False):
     t = (m*n)+1
     for i in range(1,t):
       if i+1<t and i%m != 0:
-        w = round(random.uniform(0,100),2)
+        w = round(random.uniform(0,10),2)
         g.add_edge(Arista(Nodo(i),Nodo(i+1),w)) if ponderado else g.add_edge(Arista(Nodo(i),Nodo(i+1)))
       if i+m<t:
-        w = round(random.uniform(0,100),2)
+        w = round(random.uniform(0,10),2)
         g.add_edge(Arista(Nodo(i),Nodo(i+m),w)) if ponderado else g.add_edge(Arista(Nodo(i),Nodo(i+m)))
     g.save_graph('grafoMalla', m*n)
     return g
@@ -44,7 +44,7 @@ def grafoErdosRenyi(n, m, dirigido=False, auto=False, ponderado=False):
     while len(g.edges_list()) < m:
       n1 = random.choice(nodes)
       n2 = random.choice(nodes)
-      w = round(random.uniform(0,100),2)
+      w = round(random.uniform(0,10),2)
       g.add_edge(Arista(Nodo(n1),Nodo(n2),w)) if ponderado else g.add_edge(Arista(Nodo(n1),Nodo(n2)))
     g.save_graph('grafoErdosRenyi', n)
     return g
@@ -68,7 +68,7 @@ def grafoGilbert(n, p, dirigido=False, auto=False, ponderado=False):
       for j in range(i+1,len(nodes)+1):
         R = random.random() 
         if (R < p):
-          w = round(random.uniform(0,100),2)
+          w = round(random.uniform(0,10),2)
           g.add_edge(Arista(Nodo(i),Nodo(j),w)) if ponderado else g.add_edge(Arista(Nodo(i),Nodo(j)))
     g.save_graph('grafoGilbert', n)
     return g
@@ -100,7 +100,7 @@ def grafoGeografico(n, r, dirigido=False, auto=False, ponderado=False):
         if (node1 < node2):
           dist2points = ((x2-x1)**2 + (y2-y1)**2)**0.5
           if(dist2points<=r):
-            w = round(random.uniform(0,100),2)
+            w = round(random.uniform(0,10),2)
             g.add_edge(Arista(Nodo(node1),Nodo(node2),w)) if ponderado else g.add_edge(Arista(Nodo(node1),Nodo(node2)))
     g.save_graph('grafoGeografico', n)
     return g
@@ -129,7 +129,7 @@ def grafoBarabasiAlbert(n, d, dirigido=False, auto=False, ponderado=False):
     for i in initial_nodes:
       for j in initial_nodes:
         if (i < j):
-          w = round(random.uniform(0,100),2)
+          w = round(random.uniform(0,10),2)
           g.add_edge(Arista(Nodo(i),Nodo(j),w)) if ponderado else g.add_edge(Arista(Nodo(i),Nodo(j)))
 
     while nodes[-1] < n:
@@ -139,7 +139,7 @@ def grafoBarabasiAlbert(n, d, dirigido=False, auto=False, ponderado=False):
         if p_v > 0:
           bernoulli = random.random()
           if bernoulli > 0.5:
-            w = round(random.uniform(0,100),2)
+            w = round(random.uniform(0,10),2)
             g.add_edge(Arista(Nodo(i),Nodo(new_node[0]),w)) if ponderado else g.add_edge(Arista(Nodo(i),Nodo(new_node[0])))
         else:
           nodes_complete.append(i)
@@ -169,8 +169,8 @@ def grafoDorogovtsevMendes(n, dirigido=False, auto=False, ponderado=False):
     while len(nodes)<n:
       new_node = [len(nodes)+1]
       choice_edge = random.choice(aux_edges_list)
-      w1 = round(random.uniform(0,100),2)
-      w2 = round(random.uniform(0,100),2)
+      w1 = round(random.uniform(0,10),2)
+      w2 = round(random.uniform(0,10),2)
       g.add_edge(Arista(Nodo(choice_edge[0]),Nodo(new_node[0]),w1)) if ponderado else g.add_edge(Arista(Nodo(choice_edge[0]),Nodo(new_node[0])))
       g.add_edge(Arista(Nodo(choice_edge[1]),Nodo(new_node[0]),w2)) if ponderado else g.add_edge(Arista(Nodo(choice_edge[1]),Nodo(new_node[0])))
       nodes = nodes + new_node
@@ -186,65 +186,113 @@ def grafoDorogovtsevMendes(n, dirigido=False, auto=False, ponderado=False):
 #Grafo Malla
 """
 GM_20 = grafoMalla(5,4,ponderado=True)
-dijkstra_GM_20 = GM_20.Dijkstra(1)
-GM_20.save_graph('dijkstra_malla',20, dijkstra_GM_20)
+kruskalD_GM_20 = GM_20.KruskalD()
+GM_20.save_graph('kruskalD_malla',20, kruskalD_GM_20)
+kruskalI_GM_20 = GM_20.KruskalI()
+GM_20.save_graph('kruskalI_malla',20, kruskalI_GM_20)
+prim_GM_20 = GM_20.Prim()
+GM_20.save_graph('prim_malla',20, prim_GM_20)
 
-GM_200 = grafoMalla(20,10,ponderado=True)
-dijkstra_GM_200 = GM_200.Dijkstra(1)
-GM_200.save_graph('dijkstra_malla',200, dijkstra_GM_200)
+GM_150 = grafoMalla(15,10,ponderado=True)
+kruskalD_GM_150 = GM_150.KruskalD()
+GM_150.save_graph('kruskalD_malla',150, kruskalD_GM_150)
+kruskalI_GM_150 = GM_150.KruskalI()
+GM_150.save_graph('kruskalI_malla',150, kruskalI_GM_150)
+prim_GM_150 = GM_150.Prim()
+GM_150.save_graph('prim_malla',150, prim_GM_150)
 """
 
 #Grafo Erdos Renyi
 """
 GER_20 = grafoErdosRenyi(20,50,ponderado=True)
-dijkstra_GER_20 = GER_20.Dijkstra(1)
-GER_20.save_graph('dijkstra_Erdos_Renyi',20, dijkstra_GER_20)
+kruskalD_GER_20 = GER_20.KruskalD()
+GER_20.save_graph('kruskalD_Erdos_Renyi',20, kruskalD_GER_20)
+kruskalI_GER_20 = GER_20.KruskalI()
+GER_20.save_graph('kruskalI_Erdos_Renyi',20, kruskalI_GER_20)
+prim_GER_20 = GER_20.Prim()
+GER_20.save_graph('prim_Erdos_Renyi',20, prim_GER_20)
 
-GER_200 = grafoErdosRenyi(200,700,ponderado=True)
-dijkstra_GER_200 = GER_200.Dijkstra(1)
-GER_200.save_graph('dijkstra_Erdos_Renyi',200, dijkstra_GER_200)
+GER_150 = grafoErdosRenyi(150,600,ponderado=True)
+kruskalD_GER_150 = GER_150.KruskalD()
+GER_150.save_graph('kruskalD_Erdos_Renyi',150, kruskalD_GER_150)
+kruskalI_GER_150 = GER_150.KruskalI()
+GER_150.save_graph('kruskalI_Erdos_Renyi',150, kruskalI_GER_150)
+Prim_GER_150 = GER_150.Prim()
+GER_150.save_graph('Prim_Erdos_Renyi',150, Prim_GER_150)
 """
 
 #Grafo Gilbert
 """
 GG_20 = grafoGilbert(20,0.5,ponderado=True)
-dijkstra_GG_20 = GG_20.Dijkstra(1)
-GG_20.save_graph('dijkstra_Gilbert',20, dijkstra_GG_20)
+KruskalD_GG_20 = GG_20.KruskalD()
+GG_20.save_graph('KruskalD_Gilbert',20, KruskalD_GG_20)
+KruskalI_GG_20 = GG_20.KruskalI()
+GG_20.save_graph('KruskalI_Gilbert',20, KruskalI_GG_20)
+Prim_GG_20 = GG_20.Prim()
+GG_20.save_graph('Prim_Gilbert',20, Prim_GG_20)
 
-GG_200 = grafoGilbert(200,0.1,ponderado=True)
-dijkstra_GG_200 = GG_200.Dijkstra(1)
-GG_200.save_graph('dijkstra_Gilbert',200, dijkstra_GG_200)
+GG_150 = grafoGilbert(150,0.1,ponderado=True)
+KruskalD_GG_150 = GG_150.KruskalD()
+GG_150.save_graph('KruskalD_Gilbert',150, KruskalD_GG_150)
+KruskalI_GG_150 = GG_150.KruskalI()
+GG_150.save_graph('KruskalI_Gilbert',150, KruskalI_GG_150)
+Prim_GG_150 = GG_150.Prim()
+GG_150.save_graph('Prim_Gilbert',150, Prim_GG_150)
 """
 
 #Grafo Geográfico
 """
-GGEO_20 = grafoGeografico(20, 0.8, ponderado=True)
-dijkstra_GGEO_20 = GGEO_20.Dijkstra(1)
-GGEO_20.save_graph('dijkstra_Geografico',20, dijkstra_GGEO_20)
+GGEO_20 = grafoGeografico(20, 0.6, ponderado=True)
+KruskalD_GGEO_20 = GGEO_20.KruskalD()
+GGEO_20.save_graph('KruskalD_Geografico',20, KruskalD_GGEO_20)
+KruskalI_GGEO_20 = GGEO_20.KruskalI()
+GGEO_20.save_graph('KruskalI_Geografico',20, KruskalI_GGEO_20)
+Prim_GGEO_20 = GGEO_20.Prim()
+GGEO_20.save_graph('Prim_Geografico',20, Prim_GGEO_20)
 
-GGEO_200 = grafoGeografico(200, 0.15, ponderado=True)
-dijkstra_GGEO_200 = GGEO_200.Dijkstra(1)
-GGEO_200.save_graph('dijkstra_Geografico',200, dijkstra_GGEO_200)
+GGEO_150 = grafoGeografico(150, 0.15, ponderado=True)
+KruskalD_GGEO_150 = GGEO_150.KruskalD()
+GGEO_150.save_graph('KruskalD_Geografico',150, KruskalD_GGEO_150)
+KruskalI_GGEO_150 = GGEO_150.KruskalI()
+GGEO_150.save_graph('KruskalI_Geografico',150, KruskalI_GGEO_150)
+Prim_GGEO_150 = GGEO_150.Prim()
+GGEO_150.save_graph('Prim_Geografico',150, Prim_GGEO_150)
 """
 
 #Grafo Barabasi Albert
 """
-GBA_20 = grafoBarabasiAlbert(20,4,ponderado=True)
-dijkstra_GBA_20 = GBA_20.Dijkstra(1)
-GBA_20.save_graph('dijkstra_BarabasiAlbert',20, dijkstra_GBA_20)
+GBA_20 = grafoBarabasiAlbert(20,5,ponderado=True)
+KruskalD_GBA_20 = GBA_20.KruskalD()
+GBA_20.save_graph('KruskalD_BarabasiAlbert',20, KruskalD_GBA_20)
+KruskalI_GBA_20 = GBA_20.KruskalI()
+GBA_20.save_graph('KruskalI_BarabasiAlbert',20, KruskalI_GBA_20)
+Prim_GBA_20 = GBA_20.Prim()
+GBA_20.save_graph('Prim_BarabasiAlbert',20, Prim_GBA_20)
 
-GBA_200 = grafoBarabasiAlbert(200,6,ponderado=True)
-dijkstra_GBA_200 = GBA_200.Dijkstra(1)
-GBA_200.save_graph('dijkstra_BarabasiAlbert',200, dijkstra_GBA_200)
+GBA_150 = grafoBarabasiAlbert(150,6,ponderado=True)
+KruskalD_GBA_150 = GBA_150.KruskalD()
+GBA_150.save_graph('KruskalD_BarabasiAlbert',150, KruskalD_GBA_150)
+KruskalI_GBA_150 = GBA_150.KruskalI()
+GBA_150.save_graph('KruskalI_BarabasiAlbert',150, KruskalI_GBA_150)
+Prim_GBA_150 = GBA_150.Prim()
+GBA_150.save_graph('Prim_BarabasiAlbert',150, Prim_GBA_150)
 """
 
 #Grafo Dorogovtsev Mendes
 """
 GDM_20 = grafoDorogovtsevMendes(20, ponderado=True)
-dijkstra_GDM_20 = GDM_20.Dijkstra(1)
-GDM_20.save_graph('dijkstra_DorogovtsevMendes',20, dijkstra_GDM_20)
+KruskalD_GDM_20 = GDM_20.KruskalD()
+GDM_20.save_graph('KruskalD_DorogovtsevMendes',20, KruskalD_GDM_20)
+KruskalI_GDM_20 = GDM_20.KruskalI()
+GDM_20.save_graph('KruskalI_DorogovtsevMendes',20, KruskalI_GDM_20)
+Prim_GDM_20 = GDM_20.Prim()
+GDM_20.save_graph('Prim_DorogovtsevMendes',20, Prim_GDM_20)
 
-GDM_200 = grafoDorogovtsevMendes(200, ponderado=True)
-dijkstra_GDM_200 = GDM_200.Dijkstra(1)
-GDM_200.save_graph('dijkstra_DorogovtsevMendes',200, dijkstra_GDM_200)
+GDM_150 = grafoDorogovtsevMendes(150, ponderado=True)
+KruskalD_GDM_150 = GDM_150.KruskalD()
+GDM_150.save_graph('KruskalD_DorogovtsevMendes',150, KruskalD_GDM_150)
+KruskalI_GDM_150 = GDM_150.KruskalI()
+GDM_150.save_graph('KruskalI_DorogovtsevMendes',150, KruskalI_GDM_150)
+Prim_GDM_150 = GDM_150.Prim()
+GDM_150.save_graph('Prim_DorogovtsevMendes',150, Prim_GDM_150)
 """

@@ -15,6 +15,8 @@ class Grafo:
     self.__bfs_layers = []
     self.__is_weighted = is_weighted
     self.__custom_nodes = {}
+    self.__custom_edges = {}
+    self.__visited = []
 
 
   #Print the list of edges in the graph
@@ -93,17 +95,30 @@ class Grafo:
   def __custom_graph(self, edges_tuples):
     content = []
     graph_type = 'graph'
-    if self.__is_directed == False and self.__custom_nodes=={}:
+    if self.__is_directed == False and self.__custom_nodes=={} and self.__custom_nodes == {}:
       content = [f"{str(t[0])}--{str(t[1])}" for t in edges_tuples]
-    if self.__is_directed == True and self.__custom_nodes=={}:
+    if self.__is_directed == True and self.__custom_nodes=={} and self.__custom_nodes == {}:
       content = [f"{str(t[0])}->{str(t[1])}" for t in edges_tuples]
       graph_type = 'digraph'
-    if self.__is_directed == False and len(self.__custom_nodes)>0:
+    if self.__is_directed == False and len(self.__custom_nodes)>0 and self.__custom_nodes == {}:
       content = [f"{str(t[0])}--{str(t[1])}" for t in edges_tuples]
       customNodes = [f"{str(n[0])} {str(n[1])}" for n in list(self.__custom_nodes.items())]
       content = content + customNodes
-    if self.__is_directed == True and len(self.__custom_nodes)>0:
+    if self.__is_directed == True and len(self.__custom_nodes)>0 and self.__custom_nodes == {}:
       content = [f"{str(t[0])}->{str(t[1])}" for t in edges_tuples]
+      customNodes = [f"{str(n[0])} {str(n[1])}" for n in list(self.__custom_nodes.items())]
+      content = content + customNodes
+      graph_type = 'digraph'
+    if self.__is_directed == False and len(self.__custom_edges)>0 and len(self.__custom_nodes)>0:
+      for (u,v) in edges_tuples:
+        if (u,v) in self.__custom_edges: 
+          content.append(f"{str(u)}--{str(v)} [label={self.__custom_edges[(u,v)]}]")
+        else:
+          content.append(f"{str(v)}--{str(u)} [label={self.__custom_edges[(v,u)]}]")
+      customNodes = [f"{str(n[0])} {str(n[1])}" for n in list(self.__custom_nodes.items())]
+      content = content + customNodes
+    if self.__is_directed == True and len(self.__custom_edges)>0 and len(self.__custom_nodes)>0:
+      content = [f"{str(t[0])}->{str(t[1])} [label={self.__custom_edges[t]}]" for t in edges_tuples]
       customNodes = [f"{str(n[0])} {str(n[1])}" for n in list(self.__custom_nodes.items())]
       content = content + customNodes
       graph_type = 'digraph'
@@ -118,6 +133,7 @@ class Grafo:
 
     content, graph_type = self.__custom_graph(edges_tuples)
     self.__custom_nodes = {}
+    self.__custom_edges = {}
 
     with open(file_name+'_'+graph_type+'_n_'+str(n)+'.gv', 'w') as f:
       f.write(graph_type + ' ' + file_name +'{\n')
@@ -136,6 +152,12 @@ class Grafo:
             return False
     return True
 
+  #Return the edges of a graph without the weighted
+  def just_edges(self):
+    if self.__is_weighted:
+      return [(u,v) for (u,v,w) in self.edges_list()]
+    else:
+      return self.edges_list()
 
   #BFS algorithm
   def BFS(self, s):
@@ -175,7 +197,6 @@ class Grafo:
         self.DFS_R(v)
     #Clean when finished
     if len(self.adjacency_dict().keys()) == len(self.__explored) and self.__explored[0] == str(u):
-      #self.__induced_graph = []
       self.__explored = []
     return [str(edge) for edge in induced_graph]
   
@@ -184,8 +205,9 @@ class Grafo:
     # clean variables
     # s: any source node of the graph
     # d: it is a list of discovered nodes
-    self.__induced_graph, dfs_i, d  = [], [], [] 
+    self.__induced_graph, dfs_i, d, self.__visited  = [], [], [], []
     self.__explored.append(str(s))
+    e = self.just_edges()
     while len(self.__explored) > 0:
       v = self.__explored.pop()
       if v in d:
@@ -199,15 +221,16 @@ class Grafo:
     for i in range(1,len(d)):
       #clean variables
       #From discovered nodes order get continuos edges
-      if (d[i-1], d[i]) in self.edges_list() or (d[i], d[i-1]) in self.edges_list():
+      if (d[i-1], d[i]) in e or (d[i], d[i-1]) in e:
         self.__induced_graph.append(Arista(Nodo(d[i-1]),Nodo(d[i])))
       else:
       #From discovered nodes order find the closest node to other node to form an edge
         for j in reversed(range(i)):
-          if (d[j], d[i]) in self.edges_list() or (d[i], d[j]) in self.edges_list():
+          if (d[j], d[i]) in e or (d[i], d[j]) in e:
             self.__induced_graph.append(Arista(Nodo(d[j]),Nodo(d[i])))
             break
     dfs_i = self.__induced_graph
+    self.__visited = d
     self.__induced_graph = []
     return [str(edge) for edge in dfs_i]
 
@@ -266,4 +289,145 @@ class Grafo:
       q = self.__priority_queue(list(d.values()),list(d.keys()),q)
     self.__custom_nodes = {key: f'[label="{key}({str(value)})"]' for (key,value) in d.items()}
     self.__induced_graph=[Arista(Nodo(tree[k][0]),Nodo(tree[k][1])) for k in list(tree.keys())]
+    return [str(edge) for edge in self.__induced_graph]
+
+  """
+  Sort algorithm "quicksort" to edges with the minimal cost
+  order=ascending :param, if the algorithm is sorted ascending
+  order=descending :param, if the algorithm is sorted descending
+  values=[(node1,node2, weight), ...] :param, list of edges
+  """
+  def quicksort(self, values, order="ascending"):
+    if len(values) < 1: return []
+    left, right, pivot = [], [], values[0]
+    for i in range(1,len(values)):
+      if order == 'ascending':
+        if float(values[i][2]) <= float(pivot[2]):
+          left.append(values[i])
+        else:
+          right.append(values[i])
+      else:
+        if float(values[i][2]) >= float(pivot[2]):
+          left.append(values[i])
+        else:
+          right.append(values[i])
+    return [*self.quicksort(left, order), pivot, *self.quicksort(right, order)]
+
+  """
+  Find the connected component for KruskalD
+  connected_K = {'node1':node, ...} :param, it is a dictionary of nodes
+  i = Node :param
+  """
+  def find_connected_component(self, connected_K, i):
+    if connected_K[i] == i: return i
+    return self.find_connected_component(connected_K, connected_K[i])
+
+  """
+  Join connected components
+  connected_K={'node1':node, ...}:param, dictionary with all  connected componentes
+  rank={'node1':int, ...} :param, dictionary with the number of connected elements in the connected components
+  x=connected component 1:param
+  y=connected component 2:param
+  """
+  def merge_trees(self, connected_K, rank, x, y):
+    if rank[x] < rank[y]: connected_K[x] = y
+    elif rank[x] > rank[y]: connected_K[y] = x
+    else:
+      connected_K[y] = x
+      rank[x] += 1
+  
+  """
+  Verifies that a tree is still connected through the DFS algorithm
+  Comparing the number of nodes of the original graph and those visited by the tree
+  originGSize=int(number original graph nodes):param
+  """
+  def is_connected(self, originGSize):
+    n = list(self.adjacency_dict().keys())
+    self.DFS_I(n[0])
+    if len(self.__visited)==len(originGSize):
+      return True
+    return False
+
+  """
+  Direct Kruskal Algorithm
+  """
+  def KruskalD(self):
+    self.__induced_graph, self.__custom_nodes  = [], {}
+    edges_3tuples = [tuple(str(edge)[1:-1].split(',')) for edge in list(self.__edges)]
+    sort_edges = self.quicksort(edges_3tuples)
+    connected_component = {}
+    rank = {}
+    total_weight = 0
+    for n in self.adjacency_dict().keys():
+      connected_component[n] = n
+      rank[n] = 0
+    s = list(connected_component.keys())[0]
+    for (u,v,w) in sort_edges:
+      k_u = self.find_connected_component(connected_component,u)
+      k_v = self.find_connected_component(connected_component,v)
+      if k_u != k_v:
+        total_weight += float(w)
+        self.__induced_graph.append(Arista(Nodo(u),Nodo(v)))
+        self.merge_trees(connected_component,rank, k_u, k_v)
+    #print the total weight of the MST on a node
+    self.__custom_edges = self.weighted_edges()
+    self.__custom_nodes = {str(s): f'[label="{str(s)}, MST = {str(round(total_weight,2))}"]'}
+    return [str(edge) for edge in self.__induced_graph]
+
+  """
+  Inverse Kruskal Algorithm
+  """
+  def KruskalI(self):
+    self.__custom_nodes = {}
+    induced_graph,  total_weight = [], 0
+    self.__induced_graph, g_nodes = [], list(self.adjacency_dict().keys())
+    edges_4tuples = [tuple(str(e)[1:-1].split(',')) + (self.__edges[i],) for i, e in enumerate(self.__edges)]
+    sort_edges = self.quicksort(edges_4tuples, order="descending")
+
+    for (u,v,w,edge) in sort_edges:
+      self.__edges.remove(edge)
+      if not self.is_connected(g_nodes):
+        induced_graph.append(Arista(Nodo(u),Nodo(v)))
+        total_weight += float(w)
+        self.add_edge(edge)
+
+    self.__edges = [i[3] for i in edges_4tuples]
+    self.__custom_edges = self.weighted_edges()
+    #print the total weight of the MST on a node
+    self.__custom_nodes = {str(g_nodes[0]): f'[label="{str(g_nodes[0])}, MST = {str(round(total_weight,2))}"]'}
+    return [str(edge) for edge in induced_graph]
+
+  """
+  Prim Algorithm
+  """
+  def Prim(self):
+    q, self.__induced_graph = [], []
+    self.__custom_nodes, d, tree, S = {}, {}, {}, {}
+    adj = self.adjacency_dict()
+    w_e = self.weighted_edges()
+    S = {str(n):False for n in adj.keys()}
+    d = {str(n):inf for n in adj.keys()}
+    q = [str(n) for n in adj.keys()]
+    s = q[0]
+    d[s] = 0.0
+    while len(q) > 0:
+      u = q.pop(0)
+      S[str(u)] = True
+      for v in adj[str(u)]:
+        if self.__is_directed:
+          if (u,v) in w_e:
+            if S[str(v)] == False and l_e < d[str(v)]:
+              d[str(v)] = l_e
+              tree[v] = (int(u), int(v))
+        else:
+          l_e = w_e[(u,v)] if (u,v) in w_e else w_e[(v,u)]
+          if S[str(v)] == False and l_e < d[str(v)]:
+            d[str(v)] = l_e
+            tree[v] = (int(u), int(v))
+      q = self.__priority_queue(list(d.values()),list(d.keys()),q)
+    self.__induced_graph=[Arista(Nodo(tree[k][0]),Nodo(tree[k][1])) for k in list(tree.keys())]
+    MST = sum(d.values())
+    self.__custom_edges = self.weighted_edges()
+    #print the total weight of the MST on a node
+    self.__custom_nodes = {str(s): f'[label="{str(s)}, MST = {str(round(MST,2))}"]'}
     return [str(edge) for edge in self.__induced_graph]
