@@ -1,6 +1,8 @@
 from cmath import inf
 from arista import Arista
 from nodo import Nodo
+from distributions import Spring
+from interface import Scale
 
 class Grafo:
 
@@ -17,6 +19,7 @@ class Grafo:
     self.__custom_nodes = {}
     self.__custom_edges = {}
     self.__visited = []
+    self.__nodes = {}
 
 
   #Print the list of edges in the graph
@@ -47,22 +50,39 @@ class Grafo:
 
   #Add an edge considering if the graph is directed or not or if the graph has loops or not
   def add_edge(self, edge:Arista):
-    edge_inv = Arista(edge.get_Node2(),edge.get_Node1())
+    if str(edge.get_Node1()) not in self.__nodes:
+      self.__nodes[str(edge.get_Node1())] = edge.get_Node1()
+    if str(edge.get_Node2()) not in self.__nodes:
+      self.__nodes[str(edge.get_Node2())] = edge.get_Node2()
+
+    edge_inv = Arista(self.__nodes[str(edge.get_Node2())],self.__nodes[str(edge.get_Node1())])
     if self.__is_directed == False and self.__is_auto_loop == False:
       if edge not in self.__edges and (edge.get_Node1() != edge.get_Node2()) and edge_inv not in self.__edges:
-        self.__edges.append(edge)
+        if self.__is_weighted:
+          self.__edges.append(Arista(self.__nodes[str(edge.get_Node1())], self.__nodes[str(edge.get_Node2())], edge.get_weight()))
+        else:
+          self.__edges.append(Arista(self.__nodes[str(edge.get_Node1())], self.__nodes[str(edge.get_Node2())]))
 
     if self.__is_directed == False and self.__is_auto_loop == True:
       if edge not in self.__edges and edge_inv not in self.__edges:
-        self.__edges.append(edge)
+        if self.__is_weighted:
+          self.__edges.append(Arista(self.__nodes[str(edge.get_Node1())], self.__nodes[str(edge.get_Node2())], edge.get_weight()))
+        else:
+          self.__edges.append(Arista(self.__nodes[str(edge.get_Node1())], self.__nodes[str(edge.get_Node2())]))
 
     if self.__is_directed == True and self.__is_auto_loop == False:
       if edge not in self.__edges and (edge.get_Node1() != edge.get_Node2()):
-        self.__edges.append(edge)
+        if self.__is_weighted:
+          self.__edges.append(Arista(self.__nodes[str(edge.get_Node1())], self.__nodes[str(edge.get_Node2())], edge.get_weight()))
+        else:
+          self.__edges.append(Arista(self.__nodes[str(edge.get_Node1())], self.__nodes[str(edge.get_Node2())]))
 
     if self.__is_directed == True and self.__is_auto_loop == True:
       if edge not in self.__edges:
-        self.__edges.append(edge)
+        if self.__is_weighted:
+          self.__edges.append(Arista(self.__nodes[str(edge.get_Node1())], self.__nodes[str(edge.get_Node2())], edge.get_weight()))
+        else:
+          self.__edges.append(Arista(self.__nodes[str(edge.get_Node1())], self.__nodes[str(edge.get_Node2())]))
 
   #Return a list of edges and each edge is a tuple
   def edges_list(self):
@@ -431,3 +451,24 @@ class Grafo:
     #print the total weight of the MST on a node
     self.__custom_nodes = {str(s): f'[label="{str(s)}, MST = {str(round(MST,2))}"]'}
     return [str(edge) for edge in self.__induced_graph]
+
+  """
+  Draw Graphs with pygame and Algorithm "Spring"
+  """
+  def draw(self, canvas):
+    self.__get_adjacency()
+
+    s = Spring(self)
+    s.motion()
+
+    scale = Scale(self)
+    scale.calculate_scale()
+
+    for node in list(self.__nodes.values()):
+      node.attrib['position_with_scale'] = scale.scaling(node.attrib['position'])
+
+    for edge in self.__edges:
+      edge.draw(canvas)
+
+    for node in list(self.__nodes.values()):
+      node.draw(canvas)

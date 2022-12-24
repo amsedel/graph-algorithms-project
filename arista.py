@@ -1,4 +1,6 @@
 from nodo import Nodo
+from constants import *
+import pygame
 
 class Arista:
   #constructor overload
@@ -16,6 +18,12 @@ class Arista:
       if isinstance(args[2], float) or isinstance(args[2], int):
         self.__has_weight = True
         self.__weight = args[2]
+    self.attrib = {
+        'style': {
+          'width': 1,
+          'color': GREEN
+        }
+      }
   
   #Get nodes pair
   def get_pair(self) -> list:
@@ -50,3 +58,10 @@ class Arista:
   #Modify especial funcion __eq__ to correctly compare a pair of nodes
   def __eq__(self, __o: object) -> bool:
       return self.get_pair()[0] == __o.get_pair()[0] and self.get_pair()[1] == __o.get_pair()[1] 
+
+  def draw(self, canvas):
+    pygame.draw.line(canvas,
+                     self.attrib['style']['color'], 
+                     self.get_Node1().attrib['position_with_scale'], 
+                     self.get_Node2().attrib['position_with_scale'],
+                      1)

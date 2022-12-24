@@ -1,0 +1,35 @@
+# Grafo Malla 100
+https://youtu.be/_-4Ye0JRxRU
+
+# Grafo Malla 500
+https://youtu.be/b84HEA0Y0BI
+
+# Grafo Erdos Renyi 100
+https://youtu.be/FvjXok3TURw
+
+# Grafo Erdos Renyi 500
+https://youtu.be/_ttQ4NV-fKc
+
+# Grafo Gilbert 100
+https://youtu.be/VUcFdIl2u_U
+
+# Grafo Gilbert 500
+https://youtu.be/E8c-RltiWyo
+
+#Grafo Geográfico 100
+https://youtu.be/FgSOBonawvM
+
+#Grafo Geográfico 500
+https://youtu.be/E5C0sWh9TqY
+
+#Grafo Barabasi Albert 100
+https://youtu.be/e7VykKrBPP4
+
+#Grafo Barabasi Albert 500
+https://youtu.be/1PVDn4W38lk
+
+#Grafo Dorogovtsev Mendes 100
+https://youtu.be/_SyNJVwFXHk
+
+#Grafo Dorogovtsev Mendes 500
+https://youtu.be/0Ndy9g_XlVA

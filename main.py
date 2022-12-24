@@ -2,6 +2,7 @@ import random
 from nodo import Nodo
 from arista import Arista
 from grafo import Grafo
+from interface import *
 
 
 #Modelo G(m,n) de malla. Crear m*n nodos. 
@@ -183,116 +184,69 @@ def grafoDorogovtsevMendes(n, dirigido=False, auto=False, ponderado=False):
 
 
 
-#Grafo Malla
+# Grafo Malla
 """
-GM_20 = grafoMalla(5,4,ponderado=True)
-kruskalD_GM_20 = GM_20.KruskalD()
-GM_20.save_graph('kruskalD_malla',20, kruskalD_GM_20)
-kruskalI_GM_20 = GM_20.KruskalI()
-GM_20.save_graph('kruskalI_malla',20, kruskalI_GM_20)
-prim_GM_20 = GM_20.Prim()
-GM_20.save_graph('prim_malla',20, prim_GM_20)
+GM_100 = grafoMalla(10,10)
+gm100 = Canvas(GM_100)
+gm100.show()
 
-GM_150 = grafoMalla(15,10,ponderado=True)
-kruskalD_GM_150 = GM_150.KruskalD()
-GM_150.save_graph('kruskalD_malla',150, kruskalD_GM_150)
-kruskalI_GM_150 = GM_150.KruskalI()
-GM_150.save_graph('kruskalI_malla',150, kruskalI_GM_150)
-prim_GM_150 = GM_150.Prim()
-GM_150.save_graph('prim_malla',150, prim_GM_150)
+GM_500 = grafoMalla(50,10)
+gm500 = Canvas(GM_500)
+gm500.show()
 """
 
-#Grafo Erdos Renyi
-"""
-GER_20 = grafoErdosRenyi(20,50,ponderado=True)
-kruskalD_GER_20 = GER_20.KruskalD()
-GER_20.save_graph('kruskalD_Erdos_Renyi',20, kruskalD_GER_20)
-kruskalI_GER_20 = GER_20.KruskalI()
-GER_20.save_graph('kruskalI_Erdos_Renyi',20, kruskalI_GER_20)
-prim_GER_20 = GER_20.Prim()
-GER_20.save_graph('prim_Erdos_Renyi',20, prim_GER_20)
 
-GER_150 = grafoErdosRenyi(150,600,ponderado=True)
-kruskalD_GER_150 = GER_150.KruskalD()
-GER_150.save_graph('kruskalD_Erdos_Renyi',150, kruskalD_GER_150)
-kruskalI_GER_150 = GER_150.KruskalI()
-GER_150.save_graph('kruskalI_Erdos_Renyi',150, kruskalI_GER_150)
-Prim_GER_150 = GER_150.Prim()
-GER_150.save_graph('Prim_Erdos_Renyi',150, Prim_GER_150)
+# Grafo Erdos Renyi
+"""
+GER_100 = grafoErdosRenyi(100,500)
+ger100 = Canvas(GER_100)
+ger100.show()
+
+GER_500 = grafoErdosRenyi(500,2100)
+ger500 = Canvas(GER_500)
+ger500.show()
 """
 
-#Grafo Gilbert
+# Grafo Gilbert
 """
-GG_20 = grafoGilbert(20,0.5,ponderado=True)
-KruskalD_GG_20 = GG_20.KruskalD()
-GG_20.save_graph('KruskalD_Gilbert',20, KruskalD_GG_20)
-KruskalI_GG_20 = GG_20.KruskalI()
-GG_20.save_graph('KruskalI_Gilbert',20, KruskalI_GG_20)
-Prim_GG_20 = GG_20.Prim()
-GG_20.save_graph('Prim_Gilbert',20, Prim_GG_20)
+GG_100 = grafoGilbert(100,0.15)
+gg100 = Canvas(GG_100)
+gg100.show()
 
-GG_150 = grafoGilbert(150,0.1,ponderado=True)
-KruskalD_GG_150 = GG_150.KruskalD()
-GG_150.save_graph('KruskalD_Gilbert',150, KruskalD_GG_150)
-KruskalI_GG_150 = GG_150.KruskalI()
-GG_150.save_graph('KruskalI_Gilbert',150, KruskalI_GG_150)
-Prim_GG_150 = GG_150.Prim()
-GG_150.save_graph('Prim_Gilbert',150, Prim_GG_150)
+GG_500 = grafoGilbert(500,0.03)
+gg500 = Canvas(GG_500)
+gg500.show()
 """
 
 #Grafo Geográfico
 """
-GGEO_20 = grafoGeografico(20, 0.6, ponderado=True)
-KruskalD_GGEO_20 = GGEO_20.KruskalD()
-GGEO_20.save_graph('KruskalD_Geografico',20, KruskalD_GGEO_20)
-KruskalI_GGEO_20 = GGEO_20.KruskalI()
-GGEO_20.save_graph('KruskalI_Geografico',20, KruskalI_GGEO_20)
-Prim_GGEO_20 = GGEO_20.Prim()
-GGEO_20.save_graph('Prim_Geografico',20, Prim_GGEO_20)
+GGEO_100 = grafoGeografico(100, 0.2)
+ggeo100 = Canvas(GGEO_100)
+ggeo100.show()
 
-GGEO_150 = grafoGeografico(150, 0.15, ponderado=True)
-KruskalD_GGEO_150 = GGEO_150.KruskalD()
-GGEO_150.save_graph('KruskalD_Geografico',150, KruskalD_GGEO_150)
-KruskalI_GGEO_150 = GGEO_150.KruskalI()
-GGEO_150.save_graph('KruskalI_Geografico',150, KruskalI_GGEO_150)
-Prim_GGEO_150 = GGEO_150.Prim()
-GGEO_150.save_graph('Prim_Geografico',150, Prim_GGEO_150)
+GGEO_500 = grafoGeografico(500, 0.1)
+ggeo500 = Canvas(GGEO_500)
+ggeo500.show()
 """
 
 #Grafo Barabasi Albert
 """
-GBA_20 = grafoBarabasiAlbert(20,5,ponderado=True)
-KruskalD_GBA_20 = GBA_20.KruskalD()
-GBA_20.save_graph('KruskalD_BarabasiAlbert',20, KruskalD_GBA_20)
-KruskalI_GBA_20 = GBA_20.KruskalI()
-GBA_20.save_graph('KruskalI_BarabasiAlbert',20, KruskalI_GBA_20)
-Prim_GBA_20 = GBA_20.Prim()
-GBA_20.save_graph('Prim_BarabasiAlbert',20, Prim_GBA_20)
+GBA_100 = grafoBarabasiAlbert(100,3)
+gba100 = Canvas(GBA_100)
+gba100.show()
 
-GBA_150 = grafoBarabasiAlbert(150,6,ponderado=True)
-KruskalD_GBA_150 = GBA_150.KruskalD()
-GBA_150.save_graph('KruskalD_BarabasiAlbert',150, KruskalD_GBA_150)
-KruskalI_GBA_150 = GBA_150.KruskalI()
-GBA_150.save_graph('KruskalI_BarabasiAlbert',150, KruskalI_GBA_150)
-Prim_GBA_150 = GBA_150.Prim()
-GBA_150.save_graph('Prim_BarabasiAlbert',150, Prim_GBA_150)
+GBA_500 = grafoBarabasiAlbert(500,3)
+gba500 = Canvas(GBA_500)
+gba500.show()
 """
 
 #Grafo Dorogovtsev Mendes
 """
-GDM_20 = grafoDorogovtsevMendes(20, ponderado=True)
-KruskalD_GDM_20 = GDM_20.KruskalD()
-GDM_20.save_graph('KruskalD_DorogovtsevMendes',20, KruskalD_GDM_20)
-KruskalI_GDM_20 = GDM_20.KruskalI()
-GDM_20.save_graph('KruskalI_DorogovtsevMendes',20, KruskalI_GDM_20)
-Prim_GDM_20 = GDM_20.Prim()
-GDM_20.save_graph('Prim_DorogovtsevMendes',20, Prim_GDM_20)
+GDM_100 = grafoDorogovtsevMendes(100)
+gdm100 = Canvas(GDM_100)
+gdm100.show()
 
-GDM_150 = grafoDorogovtsevMendes(150, ponderado=True)
-KruskalD_GDM_150 = GDM_150.KruskalD()
-GDM_150.save_graph('KruskalD_DorogovtsevMendes',150, KruskalD_GDM_150)
-KruskalI_GDM_150 = GDM_150.KruskalI()
-GDM_150.save_graph('KruskalI_DorogovtsevMendes',150, KruskalI_GDM_150)
-Prim_GDM_150 = GDM_150.Prim()
-GDM_150.save_graph('Prim_DorogovtsevMendes',150, Prim_GDM_150)
+GDM_500 = grafoDorogovtsevMendes(500)
+gdm500 = Canvas(GDM_500)
+gdm500.show()
 """
