@@ -1,3 +1,5 @@
+Proyecto 5, Spring
+
 # Grafo Malla 100
 https://youtu.be/_-4Ye0JRxRU
 
@@ -33,3 +35,82 @@ https://youtu.be/_SyNJVwFXHk
 
 #Grafo Dorogovtsev Mendes 500
 https://youtu.be/0Ndy9g_XlVA
+
+
+Proyecto 6, Fruchterman Reigold
+
+# Grafo Malla 100
+https://www.youtube.com/watch?v=joY2Dn5KxFs&list=PL7s9I8vJTd9s9NO95smo1bzGsL1BJBLnF&index=1
+
+# Grafo Malla 500
+https://www.youtube.com/watch?v=XQhqO9b-jns&list=PL7s9I8vJTd9s9NO95smo1bzGsL1BJBLnF&index=2
+
+# Grafo Erdos Renyi 100
+https://www.youtube.com/watch?v=Y9OMA2fITw0&list=PL7s9I8vJTd9s9NO95smo1bzGsL1BJBLnF&index=3
+
+# Grafo Erdos Renyi 500
+https://www.youtube.com/watch?v=619Y2tVF7qk&list=PL7s9I8vJTd9s9NO95smo1bzGsL1BJBLnF&index=4
+
+# Grafo Gilbert 100
+https://www.youtube.com/watch?v=XlaBmnaDxlY&list=PL7s9I8vJTd9s9NO95smo1bzGsL1BJBLnF&index=5
+
+# Grafo Gilbert 500
+https://www.youtube.com/watch?v=H0YVfPZwzNA&list=PL7s9I8vJTd9s9NO95smo1bzGsL1BJBLnF&index=6
+
+#Grafo Geográfico 100
+https://www.youtube.com/watch?v=EA8Fz9-7qCU&list=PL7s9I8vJTd9s9NO95smo1bzGsL1BJBLnF&index=7
+
+#Grafo Geográfico 500
+https://www.youtube.com/watch?v=xIN3HmARUnc&list=PL7s9I8vJTd9s9NO95smo1bzGsL1BJBLnF&index=8
+
+#Grafo Barabasi Albert 100
+https://www.youtube.com/watch?v=ZCyGOQUrkeg&list=PL7s9I8vJTd9s9NO95smo1bzGsL1BJBLnF&index=9
+
+#Grafo Barabasi Albert 500
+https://www.youtube.com/watch?v=wqxbbjm9SEo&list=PL7s9I8vJTd9s9NO95smo1bzGsL1BJBLnF&index=10
+
+#Grafo Dorogovtsev Mendes 100
+https://www.youtube.com/watch?v=BQZJLG9triw&list=PL7s9I8vJTd9s9NO95smo1bzGsL1BJBLnF&index=11
+
+#Grafo Dorogovtsev Mendes 500
+https://www.youtube.com/watch?v=R8BWY8Sit58&list=PL7s9I8vJTd9s9NO95smo1bzGsL1BJBLnF&index=12
+
+
+
+Proyecto 6, Barnes Hut 
+
+# Grafo Malla 100
+https://www.youtube.com/watch?v=8Ll-OP_Q1Zs&list=PL7s9I8vJTd9uLM6Tg4Z1tPe_8Br1Lwgf_&index=1
+
+# Grafo Malla 500
+https://www.youtube.com/watch?v=fWPOYdjy6gs&list=PL7s9I8vJTd9uLM6Tg4Z1tPe_8Br1Lwgf_&index=2
+
+# Grafo Erdos Renyi 100
+https://www.youtube.com/watch?v=gmT2bgfK0jY&list=PL7s9I8vJTd9uLM6Tg4Z1tPe_8Br1Lwgf_&index=3
+
+# Grafo Erdos Renyi 500
+https://www.youtube.com/watch?v=c5Qdvdc3VkA&list=PL7s9I8vJTd9uLM6Tg4Z1tPe_8Br1Lwgf_&index=4
+
+# Grafo Gilbert 100
+https://www.youtube.com/watch?v=1zNp239MpCY&list=PL7s9I8vJTd9uLM6Tg4Z1tPe_8Br1Lwgf_&index=5
+
+# Grafo Gilbert 500
+https://www.youtube.com/watch?v=Wd3tgQSc6y8&list=PL7s9I8vJTd9uLM6Tg4Z1tPe_8Br1Lwgf_&index=6
+
+#Grafo Geográfico 100
+https://www.youtube.com/watch?v=EWgJ0axDyHY&list=PL7s9I8vJTd9uLM6Tg4Z1tPe_8Br1Lwgf_&index=7
+
+#Grafo Geográfico 500
+https://www.youtube.com/watch?v=w6RmG0Xv3m8&list=PL7s9I8vJTd9uLM6Tg4Z1tPe_8Br1Lwgf_&index=8
+
+#Grafo Barabasi Albert 100
+https://www.youtube.com/watch?v=NjWF6LLTnKc&list=PL7s9I8vJTd9uLM6Tg4Z1tPe_8Br1Lwgf_&index=9
+
+#Grafo Barabasi Albert 500
+https://www.youtube.com/watch?v=PWbu2VvPEtI&list=PL7s9I8vJTd9uLM6Tg4Z1tPe_8Br1Lwgf_&index=10
+
+#Grafo Dorogovtsev Mendes 100
+https://www.youtube.com/watch?v=NDxAiexdJxM&list=PL7s9I8vJTd9uLM6Tg4Z1tPe_8Br1Lwgf_&index=11
+
+#Grafo Dorogovtsev Mendes 500
+https://www.youtube.com/watch?v=SU_-P5SyNsQ&list=PL7s9I8vJTd9uLM6Tg4Z1tPe_8Br1Lwgf_&index=12

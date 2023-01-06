@@ -1,7 +1,7 @@
 from cmath import inf
 from arista import Arista
 from nodo import Nodo
-from distributions import Spring
+from drawing_algorithms import Spring
 from interface import Scale
 
 class Grafo:
@@ -110,6 +110,10 @@ class Grafo:
       return len(self.__adjacency_list[node])
     else:
       return 0
+
+  #Return graph dimensions [[x_min,y_min], [x_max, y_max]]
+  def get_domain_graph(self):
+    return Scale(self).calculate_graph_dims()
 
   #Allows to print the edges and configure the display of the nodes 
   def __custom_graph(self, edges_tuples):
@@ -455,11 +459,10 @@ class Grafo:
   """
   Draw Graphs with pygame and Algorithm "Spring"
   """
-  def draw(self, canvas):
+  def draw(self, canvas, drawing_algm):
     self.__get_adjacency()
-
-    s = Spring(self)
-    s.motion()
+    # drawing_algm could be Spring, Fruchterman_Reigold or Barnes_Hut
+    drawing_algm.calculate_motion()
 
     scale = Scale(self)
     scale.calculate_scale()

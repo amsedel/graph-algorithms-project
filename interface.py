@@ -5,10 +5,11 @@ import math
 from constants import *
 
 class Canvas:
-    def __init__(self, graph) -> None:
+    def __init__(self, graph, drawing_algm_type) -> None:
         self.execution = True
         self.graph = graph
         self.size = SIZE
+        self.drawing_algm_type = drawing_algm_type
 
 
     def show(self):
@@ -24,7 +25,7 @@ class Canvas:
                     self.execution = False
             screen.fill(BLACK) #paint background
 
-            self.graph.draw(screen)
+            self.graph.draw(screen, self.drawing_algm_type)
         
             pygame.display.flip() #update screen
             clock.tick(60)
