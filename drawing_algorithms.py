@@ -8,29 +8,40 @@ import pygame
 # Spring Class, Eades
 
 class Spring:
-    def __init__(self, g):
-        self.c1 = 125
-        self.c2 = 150
+    def __init__(self, g, c=2):
+        self.c1 = c
+        self.c2 = c / 2
         self.graph = g
+        self.k = c * 2
 
     def calculate_motion(self):
-
-        for node in self.graph._Grafo__nodes.values():
-            node.attrib['displacement'] = np.array([0, 0])
+        
+        #calculate repulsive force
+        for v in self.graph._Grafo__nodes.values():
+            # initialize displacement vector 
+            v.attrib['displacement'] = np.array([0, 0])
+            for u in self.graph._Grafo__nodes.values():
+                if u != v:
+                    # distance between u and v
+                    delta = v.attrib['position'] - u.attrib['position']
+                    dist = np.linalg.norm(delta) #euclidian distance
+                    f_rep = (self.k**2) / dist
+                    v.attrib['displacement'] = v.attrib['displacement'] + ((delta/dist) * f_rep)
 
         for edge in self.graph._Grafo__edges:
-            p_n0 = edge._Arista__pair[0].attrib['position']
-            p_n1 = edge._Arista__pair[1].attrib['position']
-            delta = p_n0 - p_n1
-            euclidian_d = np.linalg.norm(delta)
-            f_u = math.log10(euclidian_d/ self.c1) * self.c2 * delta/euclidian_d 
-            #opposing forces in the spring
-            edge._Arista__pair[0].attrib['displacement'] = edge._Arista__pair[0].attrib['displacement'] + f_u
-            edge._Arista__pair[1].attrib['displacement'] = edge._Arista__pair[1].attrib['displacement'] - f_u
+            pos_v = edge._Arista__pair[0].attrib['position']
+            pos_u = edge._Arista__pair[1].attrib['position']
+            delta_e = pos_v - pos_u
+            dist_e = np.linalg.norm(delta_e) #euclidian distance
+            #f_attr = (dist_e**2) / self.k
+            f_attr = math.log10(dist/self.c2)*self.c1
+            edge._Arista__pair[0].attrib['displacement'] = edge._Arista__pair[0].attrib['displacement'] - ((delta_e/dist_e) * f_attr)
+            edge._Arista__pair[1].attrib['displacement'] = edge._Arista__pair[1].attrib['displacement'] + ((delta_e/dist_e) * f_attr)
 
+        #update positions
         for node in self.graph._Grafo__nodes.values():
-            #update positions
-            node.attrib['position'] = node.attrib['position'] + node.attrib['displacement']
+            d_desp = np.linalg.norm(node.attrib['displacement'])
+            node.attrib['position'] = node.attrib['position'] + (node.attrib['displacement']/d_desp)
 
 
 

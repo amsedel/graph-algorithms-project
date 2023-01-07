@@ -1,9 +1,49 @@
-from grafo import Grafo
 from generator_algorithms import Graph_Generator
 from interface import *
 from drawing_algorithms import *
 
 
+"""
+# Clase Spring
+
+# Malla
+#gm100_s = Graph_Generator().grafoMalla(10, 10)
+#Canvas(gm100_s, Spring(gm100_s)).show()
+#gm500_s = Graph_Generator().grafoMalla(25,20)
+#Canvas(gm500_s, Spring(gm500_s, c=3)).show()
+
+#Erdos Renyi
+#ger100_s = Graph_Generator().grafoErdosRenyi(100, 500)
+#Canvas(ger100_s, Spring(ger100_s)).show()
+#ger500_s = Graph_Generator().grafoErdosRenyi(500, 2100)
+#Canvas(ger500_s, Spring(ger500_s)).show()
+
+#Gilbert
+#gg100_s = Graph_Generator().grafoGilbert(100,0.15)
+#Canvas(gg100_s, Spring(gg100_s)).show()
+#gg500_s = Graph_Generator().grafoGilbert(500,0.02)
+#Canvas(gg500_s, Spring(gg500_s)).show()
+
+#Geográfico
+#gge100_s = Graph_Generator().grafoGeografico(100, 0.3)
+#Canvas(gge100_s, Spring(gge100_s)).show()
+#gge500_s = Graph_Generator().grafoGeografico(500, 0.1)
+#Canvas(gge500_s, Spring(gge500_s)).show()
+
+#Barabasi Albert
+#gba100_s = Graph_Generator().grafoBarabasiAlbert(100,8)
+#Canvas(gba100_s, Spring(gba100_s)).show()
+#gba500_s = Graph_Generator().grafoBarabasiAlbert(500,5)
+#Canvas(gba500_s, Spring(gba500_s)).show()
+
+#Dorogovtsev Mendes
+#gdm100_s = Graph_Generator().grafoDorogovtsevMendes(100)
+#Canvas(gdm100_s, Spring(gdm100_s)).show()
+#gdm500_s = Graph_Generator().grafoDorogovtsevMendes(500)
+#Canvas(gdm500_s, Spring(gdm500_s)).show()
+"""
+
+ 
 """
 # Clase Fruchterman Reigold
 
